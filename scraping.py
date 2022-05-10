@@ -1,3 +1,4 @@
+from lib2to3.pytree import Base
 from splinter import Browser
 from bs4 import BeautifulSoup as soup
 from webdriver_manager.chrome import ChromeDriverManager
@@ -7,63 +8,96 @@ executable_path = {'executable_path': ChromeDriverManager().install()}
 
 browser = Browser('chrome', **executable_path, headless=False)
 
-# Assign the url to visit
-url = 'https://redplanetscience.com'
+def mars_news(browser):
 
-browser.visit(url)
+    # Assign the url to visit
+    url = 'https://redplanetscience.com'
 
-# Optional delay for loading the page
-browser.is_element_present_by_css('div.list_text', wait_time=1)
+    browser.visit(url)
 
-html = browser.html
+    # Optional delay for loading the page
+    browser.is_element_present_by_css('div.list_text', wait_time=1)
 
-news_soup = soup(html, 'html.parser')
+    # Convert the browser html to a soup object
 
-slide_elem = news_soup.select_one('div.list_text')
+    html = browser.html
 
-slide_elem.find('div', class_='content_title')
+    news_soup = soup(html, 'html.parser')
 
-news_title = slide_elem.find('div', class_='content_title').get_text()
+    try:
 
-news_title
+        slide_elem = news_soup.select_one('div.list_text')
 
-news_p = slide_elem.find('div', class_='article_teaser_body').get_text()
+        # Use the parent element to find the first 'a' tag and save is as 'news_title'
 
-news_p
+        news_title = slide_elem.find('div', class_='content_title').get_text()
+
+        # Use the parent element to find the paragraph text
+
+        news_p = slide_elem.find('div', class_='article_teaser_body').get_text()
+
+    except AttributeError:
+
+        return None, None
+
+    return news_title, news_p
 
 ### Featured Images
 
 # Visit Space images url
 
-url = 'https://spaceimages-mars.com/'
+def feat_img(browser):
 
-browser.visit(url)
+    # Visit the url
 
-full_image_elem = browser.find_by_tag('button')[1]
+    url = 'https://spaceimages-mars.com/'
 
-full_image_elem.click()
+    browser.visit(url)
 
-html = browser.html
+    # Find and clikc the full image button
 
-img_soup = soup(html, 'html.parser')
+    full_image_elem = browser.find_by_tag('button')[1]
 
-# Find the relative image url
-img_url_rel = img_soup.find('img', class_='fancybox-image').get('src')
+    full_image_elem.click()
 
-img_url_rel
+    # Parse the resulting html with soup
 
-img_url = f'https://spaceimages-mars.com/{img_url_rel}'
+    html = browser.html
 
-img_url
+    img_soup = soup(html, 'html.parser')
 
-df = pd.read_html('https://galaxyfacts-mars.com/')[0]
+    # Use try/except for error handling
 
-df.columns=['Description', 'Mars', 'Earth']
+    try:
+    
+        # Find the relative image url
+        img_url_rel = img_soup.find('img', class_='fancybox-image').get('src')
 
-df.set_index('Description', inplace=True)
+    except AttributeError:
 
-df
+        return None
 
-df.to_html()
+    # Use base url to create an absolute url
 
-browser.quit()
+    img_url = f'https://spaceimages-mars.com/{img_url_rel}'
+
+    return img_url
+
+def mars_facts():
+
+    try:
+
+        # Use 'read_html' to scrape the facts table into a dataframe
+
+        df = pd.read_html('https://galaxyfacts-mars.com/')[0]
+
+    except BaseException:
+
+        return None
+
+    df.columns=['Description', 'Mars', 'Earth']
+
+    df.set_index('Description', inplace=True)
+
+    return df.to_html()
+
