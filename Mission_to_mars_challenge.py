@@ -31,6 +31,7 @@ news_p = slide_elem.find('div', class_='article_teaser_body').get_text()
 
 news_p
 
+
 # ### Featured Images
 
 # Visit Space images url
@@ -56,7 +57,7 @@ img_url = f'https://spaceimages-mars.com/{img_url_rel}'
 
 img_url
 
-browser.quit()
+# Pull Mars facts for app.
 
 df = pd.read_html('https://galaxyfacts-mars.com/')[0]
 
@@ -68,9 +69,7 @@ df
 
 df.to_html()
 
-executable_path = {'executable_path': ChromeDriverManager().install()}
 
-browser = Browser('chrome', **executable_path, headless=False)
 
 # Use an automated browser to visit Mars Hemispheres webpage
 
@@ -125,7 +124,5 @@ for link in image_pages:
     hems_image_urls.append(hemispheres)
 
     browser.back()
-
-print(hems_image_urls)
 
 browser.quit()
