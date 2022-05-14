@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup as soup
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 import datetime as dt
+import time
 
 def scrape_all():
 
@@ -10,7 +11,7 @@ def scrape_all():
 
     executable_path = {'executable_path': ChromeDriverManager().install()}
 
-    browser = Browser('chrome', **executable_path, headless=True)
+    browser = Browser('chrome', **executable_path, headless=False)
 
     # Mars news function will be used to pull this data
     
@@ -136,6 +137,7 @@ def hem_images(browser):
 
     browser.visit(url)
 
+
     # Create lists for .jpg hemisphere images and titles
 
     hems_image_urls = []
@@ -153,7 +155,8 @@ def hem_images(browser):
         hemispheres = {}
 
         # Click the link to visit specific hemisphere page
-
+        time.sleep(1)
+        
         link.click()
 
         # Initialize html parser
@@ -189,6 +192,7 @@ def hem_images(browser):
         hems_image_urls.append(hemispheres)
 
         browser.back()
+
 
     return hems_image_urls
 
