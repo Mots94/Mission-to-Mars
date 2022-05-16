@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link 
+        rel="stylesheet" 
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="bg-image jumbotron text-center shadow-1-strong rounded mb-5 text-white"
+         style="background-image: url('https://assets.newatlas.com/dims4/default/39dce54/2147483647/strip/true/crop/5000x3502+0+0/resize/1371x960!/quality/90/?url=http%3A%2F%2Fnewatlas-brightspot.s3.amazonaws.com%2F3e%2Fe8%2F80356654422882922496192fc567%2Fveil-nebula.jpeg');"
+                "background-size: cover;">
+
+      <h1 class="bg-info"><u>Mission to Mars</u></h1>
+
+      <p><a class="btn btn-primary btn-lg" href="/scrape"
+        
+                    role="button">Scrape New Data</a></p>
+    </div>
+
+    <!--Mars News-->
+
+    <div class="row" id="mars-news">
+      
+      <div class="col-xs-12">
+
+        <div class="media">
+
+          <div class="media-body">
+
+            <h2>Latest Mars News</h2>
+
+            <h4 class="media-heading">{{mars.news_title}}</h4>
+
+            <p>{{mars.news_paragraph}}</p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!--Featured Image-->
+
+    <div class="row" id="mars-featured-image">
+
+      <div class="col-xs-8">
+
+        <h2>Featured Mars Image</h2>
+
+        <img 
+        
+          src="{{mars.featured_image}}" 
+          
+          class="img-responsive" 
+          
+          alt="Responsive image"
+          
+        />
+
+      </div>
+
+      <!--Mars Facts-->
+
+      <div class="col-xs-4">
+
+        <div class="row" id="mars-facts">
+
+          <h3>Mars Facts</h3> 
+          
+          <table class="table table-striped">{{mars.facts | safe}}</table>
+            
+        </div>
+
+      </div>
+
+    </div>
+
+    <!--Mars Hemisphere images-->
+
+    <div class="row" id="mars-hemispheres">
+      
+      <div class="page-header">
+        
+        <h2 class="text-center">Mars Hemispheres</h2>
+      
+      </div>
+
+      {% for hemisphere in mars.hemispheres %}
+      <div class="col-xs-6">
+        
+        <div class="thumbnail">
+          
+          <img src="{{hemisphere.img_url | default('static/images/error.png', true)}}" alt="..." class="img-circle">
+          
+          <div class="caption">
+            
+            <h3>{{hemisphere.title}}</h3>
+          
+          </div>
+        
+        </div>
+      
+      </div>
+      {% endfor %}
+    
+    </div>
+
+  </div>
+
+</body>
+
+</html>
