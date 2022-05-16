@@ -15,7 +15,7 @@ def scrape_all():
 
     # Mars news function will be used to pull this data
     
-    news_title, news_paragraph = mars_news(browser)
+    news_title, news_p = mars_news(browser)
 
     # Run all scraping functions and store results in a dictionary
 
@@ -23,7 +23,7 @@ def scrape_all():
 
         'news_title': news_title,
 
-        'news_paragraph': news_paragraph,
+        'news_paragraph': news_p,
 
         'featured_image': feat_img(browser),
 
