@@ -1,1 +1,4 @@
 # Mission-to-Mars
+
+## Purpose
+In this project, a web scraping tool was designed to pull information related to the planet Mars off multiple websites.  BeautifulSoup and Splinter were used to automate the process of visiting each webpage where data was stored and pulling that data.  Using flask, an application was built to store scraped data in a MongoDB database.  Flask was also used to build the route to the webpage where this stored data was displayed.  In order to propely format the web application, an html index file was created to reference where each piece of data should be displayed for end users.  CSS styling was used to modify text, image shapes, and background images on the web application.
